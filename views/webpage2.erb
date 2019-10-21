@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+* {
+  box-sizing: border-box;
+}
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 100%;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@media screen and (max-width: 600px) {
+  .column {
+    width: 50%;
+  }
+}
+   input[type=text] {
+   background-color: #16d860;
+   color: white;
+  border: none;
+  border-bottom: 2px solid white;
+   border-radius: 4px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+width: 50%
+ }   
+ input[type=submit]
+{
+  background-color: #de78c2;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 2px 2px;
+  cursor: pointer;
+ border-radius: 10px;
+}
+body {
+    font: normal 20px Verdana, Arial, sans-serif;
+}
+img.img1 {
+  border-radius: 50%;
+  border-color: #16d860;
+}
+p.p1 {
+ visibility: hidden;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+  input[type='radio']:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #ffffff;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+    input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #de78c2;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+  </style>
+</head>
+<div color: #FFFFF; background-color: #000000;">
+<center>
+<img src="https://marketing-image-production.s3.amazonaws.com/uploads/ec77ef33b95b4cb71b77f85ff3f632b501dba916e30cd5bf00c4c51bc0ceeb606668f7ae5bd99f9c95fb4fa20ba910aaafeb9724ceb0289c441a541bec24858e.png" alt="logo" width= 40%>
+</center>
+<body bgcolor="#00000" text=white>
+<div class="row">
+<div class="column" style="background-color:#00000;">
+ <h3 class="center" >Contact Details:</h3>
+<form  action="/action_page">
+  First name: &nbsp;&nbsp;<input  type="text" name="fname"><br>
+  Last name: &nbsp;&nbsp;<input type="text" name="lname"><br>
+  Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="email"><br>
+  Phone: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="phone"><br>
+ <h3 class="center" >Contact Prefrence:</h3>
+ &nbsp;&nbsp;&nbsp;<input type="radio" name="contact" value="email" checked> Email<br>
+ &nbsp;&nbsp;&nbsp;<input type="radio" name="contact" value="sms" checked> SMS<br>
+<center>
+  <input  type="submit" value="Submit"><br>
+</center>
+</form>
+<font  size="3px" color="red"> <p class="<%= emailsyntax %>">Entered email address was invalid, please enter a valid address.</p> </font>
+<font size="3px" color="red"> <p class="<%= numbersyntax %>">Entered phone number was invalid, please enter a 10 digit number using the syntax '5551234567'.</p> </font>
+</div>
+<div class="column" style="background-color:#000000;">
+<center>
+<img class="img1" src="https://marketing-image-production.s3.amazonaws.com/uploads/c4f7e550ea6e1dc8618193f5d31ae9c2aba8f542a5c7b20de199ef019965e396a34356c8181ce010e4a180058e1309fb033edd29246b3820fa2126343c17292c.png" alt="image1" border="5" width= 65%>
+</center>
+ </div>
+</div>
+</body>
