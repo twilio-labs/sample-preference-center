@@ -1,0 +1,76 @@
+<style type="text/css">
+input[type=text] {
+background-color: #16d860;
+color: white;
+border: none;
+border-bottom: 2px solid white;
+border-radius: 4px;
+padding: 12px 20px;
+margin: 8px 0;
+box-sizing: border-box;
+}   
+input[type=submit]
+{
+background-color: #de78c2;
+border: none;
+color: white;
+padding: 16px 32px;
+text-decoration: none;
+margin: 2px 2px;
+cursor: pointer;
+border-radius: 10px;
+}
+body {
+font: normal 20px Verdana, Arial, sans-serif;
+}
+.center {
+display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;
+}
+input[type='radio']:after {
+width: 15px;
+height: 15px;
+border-radius: 15px;
+top: -2px;
+left: -1px;
+position: relative;
+background-color: #ffffff;
+content: '';
+display: inline-block;
+visibility: visible;
+border: 2px solid white;
+}
+input[type='radio']:checked:after {
+width: 15px;
+height: 15px;
+border-radius: 15px;
+top: -2px;
+left: -1px;
+position: relative;
+background-color: #de78c2;
+content: '';
+display: inline-block;
+visibility: visible;
+border: 2px solid white;
+}
+</style>
+<div color: #FFFFF; background-color: #000000;">
+<center>
+<img src="https://marketing-image-production.s3.amazonaws.com/uploads/ec77ef33b95b4cb71b77f85ff3f632b501dba916e30cd5bf00c4c51bc0ceeb606668f7ae5bd99f9c95fb4fa20ba910aaafeb9724ceb0289c441a541bec24858e.png" alt="logo" width= 40%>
+</center>
+<body bgcolor="#00000" text=white>
+<form action="/success">
+You entered <%= email %> did you mean <%= local %>@<%= suggestion %>? <br> <br>
+<input name="kb" value="<%= knownbounce %>" hidden/>
+<input name="ll" value="<%= landline %>" hidden/>
+<input name="fname" value="<%= fname %>" hidden/>
+<input name="lname" value="<%= lname %>" hidden/>
+<input type="radio" name="email" value="<%= email %>" checked> No, continue with entered email address <br>
+<input type="radio" name="email" value="<%= local %>@<%= suggestion %>" checked> Yes, I meant <%= local %>@<%= suggestion %><br>
+<input name="phone" value="<%= phone %>" hidden/>
+<input name="contact" value="<%= contact %>" hidden/> <br>
+<input type="submit" value="Submit">
+</form>
+</body>
