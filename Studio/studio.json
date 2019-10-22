@@ -1,0 +1,403 @@
+{
+  "description": "Preferences Demo",
+  "states": [
+    {
+      "type": "InitialState",
+      "name": "Trigger",
+      "properties": {
+        "offset": {
+          "x": 60,
+          "y": 120
+        },
+        "flow_url": "https://webhooks.twilio.com/v1/Accounts/ACd05dd82f4d30f6302e811ce25a00cb2a/Flows/FW54995305f21d4d1c5a00427500090521"
+      },
+      "transitions": [
+        {
+          "event": "incomingMessage",
+          "conditions": [],
+          "next": null,
+          "uuid": "ab862fb0-0f47-4b71-b2ca-0093f026563d"
+        },
+        {
+          "event": "incomingCall",
+          "conditions": [],
+          "next": null,
+          "uuid": "ce02b1ed-0cd8-4bb9-a613-3a8ef96edc02"
+        },
+        {
+          "event": "incomingRequest",
+          "conditions": [],
+          "next": "FF5f89f81b795a26d67413e76ac887681f",
+          "uuid": "2f05e557-a0c6-4a03-b11c-d301da589edc"
+        }
+      ],
+      "sid": "FF6be018736d859b4bb353aaadc3eb5202"
+    },
+    {
+      "type": "SetVariables",
+      "name": "Collect_Variables",
+      "properties": {
+        "offset": {
+          "x": 490,
+          "y": 280
+        },
+        "variables": [
+          {
+            "key": "fname",
+            "value": "{{flow.data.fname}}",
+            "index": "0"
+          },
+          {
+            "key": "lname",
+            "value": "{{flow.data.lname}}",
+            "index": "1"
+          },
+          {
+            "key": "email",
+            "value": "{{flow.data.email}}",
+            "index": "2"
+          },
+          {
+            "key": "phone",
+            "value": "{{flow.data.phone}}",
+            "index": "3"
+          },
+          {
+            "key": "contact",
+            "value": "{{flow.data.contact}}",
+            "index": "4"
+          },
+          {
+            "key": "knownbounce",
+            "value": "{{flow.data.knownbounce}}",
+            "index": "5"
+          },
+          {
+            "key": "landline",
+            "value": "{{flow.data.landline}}",
+            "index": "6"
+          }
+        ]
+      },
+      "transitions": [
+        {
+          "event": "next",
+          "conditions": [],
+          "next": "FFf74b848dcc43c31a66aa57edab6f8a8e",
+          "uuid": "f086ee67-6389-49b0-9882-72708e6762d9"
+        }
+      ],
+      "sid": "FF5f89f81b795a26d67413e76ac887681f"
+    },
+    {
+      "type": "SetVariables",
+      "name": "Contact_Logic",
+      "properties": {
+        "offset": {
+          "x": -230,
+          "y": 320
+        },
+        "variables": [
+          {
+            "key": "contact_method",
+            "value": "{% if flow.variables.knownbounce == 'false' and flow.variables.landline == 'false' and flow.variables.contact == 'email' %}0 {% elsif flow.variables.knownbounce == 'false' and flow.variables.landline == 'false' and flow.variables.contact == 'sms' %}1 {% elsif flow.variables.knownbounce == 'false' and flow.variables.landline == 'true' and flow.variables.contact == 'email' %}0 {% elsif flow.variables.knownbounce == 'false' and flow.variables.landline == 'true' and flow.variables.contact == 'sms' %}0 {% elsif flow.variables.knownbounce == 'true' and flow.variables.landline == 'false' and flow.variables.contact == 'email' %}1 {% elsif flow.variables.knownbounce == 'true' and flow.variables.landline == 'false' and flow.variables.contact == 'sms' %}1 {% elsif flow.variables.knownbounce == 'true' and flow.variables.landline == 'true' and flow.variables.contact == 'email' %}0 {% elsif flow.variables.knownbounce == 'true' and flow.variables.landline == 'true' and flow.variables.contact == 'sms' %}1 {% endif %}",
+            "index": "0"
+          }
+        ]
+      },
+      "transitions": [
+        {
+          "event": "next",
+          "conditions": [],
+          "next": "FFc49e2354ad525f986394b5ef43cc8921",
+          "uuid": "a1843027-8ed9-44e5-a70a-fc056ba332aa"
+        }
+      ],
+      "sid": "FFf74b848dcc43c31a66aa57edab6f8a8e"
+    },
+    {
+      "type": "Branch",
+      "name": "Preference_Evaluation",
+      "properties": {
+        "offset": {
+          "x": 20,
+          "y": 530
+        },
+        "input": "{{flow.variables.contact_method}}"
+      },
+      "transitions": [
+        {
+          "event": "noMatch",
+          "conditions": [],
+          "next": null,
+          "uuid": "5c449598-be88-4307-bdb3-d02f9ee97bdc"
+        },
+        {
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to sms",
+              "type": "equal_to",
+              "arguments": [
+                "{{flow.variables.contact_method}}"
+              ],
+              "value": "1"
+            }
+          ],
+          "next": "FF8fd0ff930a7905a5dae6c983790ad87f",
+          "uuid": "e0a43fb7-2551-4322-bd7a-127c6e018fab"
+        },
+        {
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to email",
+              "type": "equal_to",
+              "arguments": [
+                "{{flow.variables.contact_method}}"
+              ],
+              "value": "0"
+            }
+          ],
+          "next": "FF24046373157d2a832685a728608e776a",
+          "uuid": "f7d8ab51-fb0e-469d-a5dd-f8a2c0720eab"
+        }
+      ],
+      "sid": "FFc49e2354ad525f986394b5ef43cc8921"
+    },
+    {
+      "type": "Message",
+      "name": "Send_SMS",
+      "properties": {
+        "offset": {
+          "x": -120,
+          "y": 1090
+        },
+        "body": "Hello {{flow.data.fname}}  -  Thanks for signing up for SongRiddle!",
+        "from": "{{flow.channel.address}}",
+        "to": "{{flow.variables.phone}}",
+        "media_url": null,
+        "service": "{{trigger.message.InstanceSid}}",
+        "channel": "{{trigger.message.ChannelSid}}",
+        "attributes": null
+      },
+      "transitions": [
+        {
+          "event": "sent",
+          "conditions": [],
+          "next": "FF2c59bee60477e423d6a2c0f3da91f110",
+          "uuid": "a21f07ee-8057-4607-9410-9d5564977f08"
+        },
+        {
+          "event": "failed",
+          "conditions": [],
+          "next": null,
+          "uuid": "4569df80-fa04-40d9-97a2-63780be3f1c0"
+        }
+      ],
+      "sid": "FFf8217c918c3dbbd3348947e49ace6a3d"
+    },
+    {
+      "type": "Function",
+      "name": "Send_Email",
+      "properties": {
+        "offset": {
+          "x": 570,
+          "y": 870
+        },
+        "url": "https://mint-lion-6574.twil.io/send_email",
+        "timeout": null,
+        "parameters": [
+          {
+            "key": "fname",
+            "value": "{{flow.variables.fname}}"
+          },
+          {
+            "key": "email",
+            "value": "{{flow.variables.email}}"
+          },
+          {
+            "key": "phone",
+            "value": "{{flow.data.phone}}"
+          },
+          {
+            "key": "email_pref",
+            "value": "{{flow.variables.email_pref}}"
+          }
+        ]
+      },
+      "transitions": [
+        {
+          "event": "success",
+          "conditions": [],
+          "next": "FF2c59bee60477e423d6a2c0f3da91f110",
+          "uuid": "a384b412-9e8d-40aa-9c33-766745f2186a"
+        },
+        {
+          "event": "fail",
+          "conditions": [],
+          "next": null,
+          "uuid": "cd90e083-c9f4-4621-8f53-0c50879e641b"
+        }
+      ],
+      "sid": "FF5c36ba1bdf2cfe963c84f259a40ee693"
+    },
+    {
+      "type": "Function",
+      "name": "Add_To_MCDB",
+      "properties": {
+        "offset": {
+          "x": 580,
+          "y": 1600
+        },
+        "url": "https://mint-lion-6574.twil.io/mcdb",
+        "timeout": null,
+        "parameters": [
+          {
+            "key": "email",
+            "value": "{{flow.data.email}}"
+          },
+          {
+            "key": "phone",
+            "value": "{{flow.data.phone}}"
+          },
+          {
+            "key": "fname",
+            "value": "{{flow.data.fname}}"
+          },
+          {
+            "key": "lname",
+            "value": "{{flow.data.lname}}"
+          },
+          {
+            "key": "preference",
+            "value": "{{flow.data.preference}}"
+          }
+        ]
+      },
+      "transitions": [
+        {
+          "event": "success",
+          "conditions": [],
+          "next": null,
+          "uuid": "0e2ccb4d-eb4e-4d29-afb4-c3372bbc34ab"
+        },
+        {
+          "event": "fail",
+          "conditions": [],
+          "next": null,
+          "uuid": "e1657285-6588-4a5b-9fee-8c30fd5a619e"
+        }
+      ],
+      "sid": "FF2c59bee60477e423d6a2c0f3da91f110"
+    },
+    {
+      "type": "SetVariables",
+      "name": "Set_KnownBounce",
+      "properties": {
+        "offset": {
+          "x": 720,
+          "y": 560
+        },
+        "variables": [
+          {
+            "key": "email_pref",
+            "value": "{% if flow.variables.landline == 'true' and flow.variables.contact == 'sms' %}false{% else %}true{% endif %}",
+            "index": "0"
+          }
+        ]
+      },
+      "transitions": [
+        {
+          "event": "next",
+          "conditions": [],
+          "next": "FF5c36ba1bdf2cfe963c84f259a40ee693",
+          "uuid": "d1aabb12-c579-49d7-9f54-d46e9ee75a1e"
+        }
+      ],
+      "sid": "FF24046373157d2a832685a728608e776a"
+    },
+    {
+      "type": "Branch",
+      "name": "known_bounce_check",
+      "properties": {
+        "offset": {
+          "x": -250,
+          "y": 750
+        },
+        "input": "{{flow.variables.knownbounce}}"
+      },
+      "transitions": [
+        {
+          "event": "noMatch",
+          "conditions": [],
+          "next": null,
+          "uuid": "ceb59512-9915-4fd2-97c3-af78a13a4181"
+        },
+        {
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to true",
+              "type": "equal_to",
+              "arguments": [
+                "{{flow.variables.knownbounce}}"
+              ],
+              "value": "true"
+            }
+          ],
+          "next": "FF9686a187cd6aec0597cb7f72ebc78342",
+          "uuid": "3f934de1-59a2-4c8b-bf27-96b1dca2d334"
+        },
+        {
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to false",
+              "type": "equal_to",
+              "arguments": [
+                "{{flow.variables.knownbounce}}"
+              ],
+              "value": "false"
+            }
+          ],
+          "next": "FFf8217c918c3dbbd3348947e49ace6a3d",
+          "uuid": "ad56b039-61ef-4e2d-a355-91e570dbfd1e"
+        }
+      ],
+      "sid": "FF8fd0ff930a7905a5dae6c983790ad87f"
+    },
+    {
+      "type": "Message",
+      "name": "Invalid_email_SMS",
+      "properties": {
+        "offset": {
+          "x": -630,
+          "y": 1090
+        },
+        "body": "Hello {{flow.data.fname}}  -  it looks like the email provided is invalid. Please login to update your SongRiddle email!",
+        "from": "{{flow.channel.address}}",
+        "to": "{{flow.variables.phone}}",
+        "media_url": null,
+        "service": "{{trigger.message.InstanceSid}}",
+        "channel": "{{trigger.message.ChannelSid}}",
+        "attributes": null
+      },
+      "transitions": [
+        {
+          "event": "sent",
+          "conditions": [],
+          "next": "FF2c59bee60477e423d6a2c0f3da91f110",
+          "uuid": "2af4d654-c402-4fea-8d6b-23af3db72422"
+        },
+        {
+          "event": "failed",
+          "conditions": [],
+          "next": null,
+          "uuid": "62ca93c6-607d-4abf-802d-05d81e44a54d"
+        }
+      ],
+      "sid": "FF9686a187cd6aec0597cb7f72ebc78342"
+    }
+  ]
+}
