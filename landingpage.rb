@@ -15,11 +15,11 @@ end
 get '/action_page' do
 	# Email validation
 	payload = "{\"email\": \"#{params['email']}\"}"
-  	response1 = HTTParty.post("https://api.sendgrid.com/v3/validations/email", body: payload, headers: {"Authorization" => "Bearer {VALIDATION_API_KEY}", "Content-Type" => "application/json"})
+  	response1 = HTTParty.post("https://api.sendgrid.com/v3/validations/email", body: payload, headers: {"Authorization" => "Bearer <<VALIDATION_API_KEY>>", "Content-Type" => "application/json"})
   	if response1.headers['x-ratelimit-remaining'] == "0"
     	puts "hitting rate limit, sleeping for a few seconds"
     	sleep(1) until Time.now.to_i >= response1.headers['x-ratelimit-reset'].to_i
-    	response1 = HTTParty.post("https://api.sendgrid.com/v3/validations/email", body: payload, headers: {"Authorization" => "Bearer {VALIDATION_API_KEY}", "Content-Type" => "application/json"})
+    	response1 = HTTParty.post("https://api.sendgrid.com/v3/validations/email", body: payload, headers: {"Authorization" => "Bearer <<VALIDATION_API_KEY>>", "Content-Type" => "application/json"})
   	end
   	puts response1
   	knownbounce = response1["result"]["checks"]["additional"]["has_known_bounces"]
@@ -39,8 +39,8 @@ get '/action_page' do
   		numbersyntax = "p1"
   	end
   	# Phone number validation
-  	account_sid = '{TWILIO_ACCOUNT_SID}'
-	auth_token = '{TWILIO_AUTH_TOKEN}'
+  	account_sid = '<<TWILIO_ACCOUNT_SID>>'
+	auth_token = '<<TWILIO_AUTH_TOKEN>>'
 	@client = Twilio::REST::Client.new(account_sid, auth_token)
 	phone_number = @client.lookups
                       .phone_numbers("+1#{params['phone']}")
@@ -82,7 +82,7 @@ puts landline
 puts knownbounce
 parameters = "{\"email\": \"#{email}\", \"fname\": \"#{fname}\", \"lname\": \"#{lname}\", \"phone\": \"+1#{phone}\", \"contact\": \"#{contact}\", \"knownbounce\": \"#{knownbounce}\", \"landline\": \"#{landline}\"}" 
 puts parameters
-response3 = HTTParty.post("{TWILIO_STUDIO_ENDPOINT_WITH_AUTHENTICATION}", body: {To: "{PLACEHOLDER_TO_NUMBER}", From: "{FROM_NUMBER}", Parameters: parameters})
+response3 = HTTParty.post("<<TWILIO_STUDIO_ENDPOINT_WITH_AUTHENTICATION>>", body: {To: "<<PLACEHOLDER_TO_NUMBER>>", From: "<<FROM_NUMBER>>", Parameters: parameters})
 puts response3 
 erb :success, :locals => { :fname => fname}
 end
