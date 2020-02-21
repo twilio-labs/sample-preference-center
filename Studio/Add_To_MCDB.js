@@ -8,7 +8,7 @@ exports.handler = function(context, event, callback) {
     var lname = event.lname;
     var preference = event.preference;
     console.log(fname + phone);
-    var payload = "{\"list_ids\": [\"[YOUR LIST ID]\"], \"contacts\": [{\"email\": \"" + email + "\", \"custom_fields\": {\"<<FNAME CUSTOM FIELD ID>>\": \"" + fname + "\", \"<<LNAME CUSTOM FIELD ID>>\": \"" + lname + "\", \"<<PHONE CUSTOM FIELD ID>>\": \"" + phone + "\", \"<<PREFERENCE CUSTOM FIELD ID>>\": \"" + preference + "\"} }] }";
+    var payload = "{\"contacts\": [{\"email\": \"" + email + "\", \"custom_fields\": {\"<<FNAME CUSTOM FIELD ID>>\": \"" + fname + "\", \"<<LNAME CUSTOM FIELD ID>>\": \"" + lname + "\", \"<<PHONE CUSTOM FIELD ID>>\": \"" + phone + "\", \"<<PREFERENCE CUSTOM FIELD ID>>\": \"" + preference + "\"} }] }";
     console.log("Payload: " + payload);
     got.put(uri, {
     body: payload,
